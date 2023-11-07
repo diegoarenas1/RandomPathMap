@@ -76,7 +76,7 @@ def map_params(text):
     msg_pts = "color:0x0000ff|weight:2"+"|".join(coords)
     params = dict(
         path = msg_pts,
-        markers="size:small|color=0xFFFFCC|41.823770,-87.783570",
+        markers="size:small|color=0xFFFFCC|41.8789,-87.6358",
         center=START_COORDS,
         zoom=14,
         size="400x400",
