@@ -1,6 +1,7 @@
 import json
 import requests
 from random import choice,shuffle
+import os
 #represent path data as tuples(Lat,Lon)
 START_COORDS = (41.8789, -87.6358)
 UNIT_LAT = .002
@@ -10,7 +11,7 @@ maps_snap_url = "https://roads.googleapis.com/v1/snapToRoads?"
 maps_static_url = "https://maps.googleapis.com/maps/api/staticmap?"
 maps_key = "***INSERT API KEY HERE***"
 
-file_path = "***INSERT FILE PATH HERE***"
+file_path = os.path.dirname(os.path.abspath(__file__))
 
 def get_coordinates(start, steps, magnitude = 1,round_trip = False):
     """
@@ -85,15 +86,16 @@ def map_params(text):
     return params
 
 def create_map(steps,magnitude,round_trip):
-    """
-    saves a png of map path
-    """
+    #make coordinates
     snap_params = coordinate_params(get_coordinates(START_COORDS,steps,magnitude,round_trip))
     snap_request = requests.get(maps_snap_url,params = snap_params)
+    #make map
     static_params = map_params(snap_request.json())
     static_request = requests.get(maps_static_url,params = static_params)
+    #save map
     with open(file_path,"wb") as file:
         file.write(static_request.content)
     return ("Success")
 
-print(create_map(8,2,True))
+if __name__ == "__main__":
+    print(create_map(8,2,True))
